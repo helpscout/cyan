@@ -29,7 +29,6 @@ function Promise(fn) {
   this.process = function() {
     doResolve(fn, this)
   }
-  doResolve(fn, this)
 
   if (!fn.isThen) {
     promiseQueue.add(this)
@@ -134,16 +133,16 @@ function doResolve(fn, self) {
   try {
     fn(
       function(value) {
+        resolveValue = value
         if (done) return
         done = true
         resolve(self, promiseResolver.process(value))
-        resolveValue = value
       },
       function(reason) {
+        rejectReason = reason
         if (done) return
         done = true
         reject(self, promiseResolver.process(reason))
-        rejectReason = reason
       },
     )
     promiseQueue.remove(self)
