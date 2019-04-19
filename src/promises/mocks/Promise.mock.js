@@ -6,7 +6,6 @@
 import promiseFinally from './Promise.finally.mock'
 import promiseQueue from '../promiseQueue'
 import promiseResolver from '../promiseResolver'
-import { noop } from '../../utils/other.utils'
 
 const setTimeoutFunc = callback => callback()
 
@@ -27,9 +26,14 @@ function Promise(fn) {
   /** @type {!Array<!Function>} */
   this._deferreds = []
 
+  this.process = function() {
+    doResolve(fn, this)
+  }
   doResolve(fn, this)
 
-  promiseQueue.add(this)
+  if (!fn.isThen) {
+    promiseQueue.add(this)
+  }
 }
 
 function handle(self, deferred) {
@@ -142,7 +146,9 @@ function doResolve(fn, self) {
         rejectReason = reason
       },
     )
+    promiseQueue.remove(self)
   } catch (ex) {
+    promiseQueue.remove(self)
     if (done) return
     done = true
     reject(self, promiseResolver.process(ex))
@@ -155,6 +161,7 @@ function doResolve(fn, self) {
     self._handled = true
     reject(self, promiseResolver.process(rejectReason))
   }
+  promiseQueue.remove(self)
 }
 
 Promise.prototype['catch'] = function(onRejected) {
@@ -162,6 +169,10 @@ Promise.prototype['catch'] = function(onRejected) {
 }
 
 Promise.prototype.then = function(onFulfilled, onRejected) {
+  function noop() {
+    return null
+  }
+  noop.isThen = true
   // @ts-ignore
   let prom = new this.constructor(noop)
 
