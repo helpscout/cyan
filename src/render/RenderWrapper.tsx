@@ -4,25 +4,53 @@ import cleanUp from '../cleanUp'
 import debug from '../debug'
 import { runAllTimers } from '../timers'
 import wrapWithProvider from './wrapWithProvider'
-import { createRootNode } from '../utils/render.utils'
+import { createRootNode, getDocumentHTML } from '../utils/render.utils'
+import { isDefined } from '../utils/is.utils'
 
 class RenderWrapper {
   Component: any
   WrappedComponent: any
+  initialProps: any
   root: HTMLElement
 
-  constructor(Component = null) {
-    this.Component = Component
+  constructor(Component: any) {
+    this.setComponent(Component)
+    this.mount(Component)
+
+    return this
+  }
+
+  setComponent(Component) {
+    this.Component = Component && Component.type ? <Component.type /> : null
+    this.initialProps = Component && Component.props ? Component.props : {}
+  }
+
+  mount(Component = this.Component) {
+    this.setComponent(Component)
     // Create the root node for ReactDOM to mount to
     this.root = createRootNode()
     document.body.appendChild(this.root)
 
     // Render the WrappedComponent into the root node
-    this.WrappedComponent = wrapWithProvider(Component)
+    this.WrappedComponent = wrapWithProvider(this.Component)
 
     runAllTimers()
-    this.render()
+    this.render(this.initialProps)
 
+    return this
+  }
+
+  setProps(props = this.initialProps) {
+    this.render(props)
+    return this
+  }
+
+  setProp(prop, value) {
+    if (!isDefined(prop)) {
+      return this
+    }
+
+    this.setProps({ [prop]: value })
     return this
   }
 
@@ -32,8 +60,7 @@ class RenderWrapper {
   }
 
   html() {
-    this.debug()
-    return this
+    return getDocumentHTML()
   }
 
   cleanUp() {
@@ -41,17 +68,12 @@ class RenderWrapper {
     return this
   }
 
-  setProps(props = {}) {
-    this.render(props)
+  unmount() {
+    this.cleanUp()
     return this
   }
 
-  setProp(prop = '', value) {
-    this.setProps({ [prop]: value })
-    return this
-  }
-
-  render(props = {}) {
+  render(props) {
     const Component = this.WrappedComponent
     ReactDOM.render(<Component {...props} />, this.root)
     return this

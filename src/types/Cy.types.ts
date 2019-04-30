@@ -1,4 +1,5 @@
 import Cyan, { Selector, CySelector } from './Cyan.types'
+import RenderWrapper from './RenderWrapper.types'
 
 export type Cy = {
   /**
@@ -54,16 +55,6 @@ export type Cy = {
    * cy.fastForward()
    */
   fastForward(): void
-
-  /**
-   * Renders a React component into the DOM.
-   *
-   * @param {ReactComponent} component The component to render into the document.
-   *
-   * @example
-   * cy.render(<div />)
-   */
-  render(component: any): void
 
   /**
    * Types characters/commands into the document.
