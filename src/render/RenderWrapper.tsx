@@ -1,6 +1,7 @@
 import * as React from 'react'
 import ReactDOM from 'react-dom'
 import cleanUp from '../cleanUp'
+import domCleanUp from '../domCleanUp'
 import debug from '../debug'
 import { runAllTimers } from '../timers'
 import wrapWithProvider from './wrapWithProvider'
@@ -26,6 +27,7 @@ class RenderWrapper {
   }
 
   mount(Component = this.Component) {
+    this.cleanUp()
     this.setComponent(Component)
     // Create the root node for ReactDOM to mount to
     this.root = createRootNode()
@@ -65,6 +67,7 @@ class RenderWrapper {
 
   cleanUp() {
     cleanUp()
+    domCleanUp()
     return this
   }
 
