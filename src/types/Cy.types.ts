@@ -32,6 +32,14 @@ export type Cy = {
   getByText(text: string): Cyan
 
   /**
+   * Unmounts the rendered React component and resets the document.body.
+   *
+   * @example
+   * cy.cleanUp()
+   */
+  cleanUp(): void
+
+  /**
    * Logs the html of document.body.
    *
    * @example
