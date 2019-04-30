@@ -33,6 +33,17 @@ export type Cy = {
   getByText(text: string): Cyan
 
   /**
+   * Renders the Component into the DOM.
+   *
+   * @param {any} Component The Component to render.
+   * @returns {RenderWrapper} The RenderWrapper instance.
+   *
+   * @example
+   * cy.render(<div>Hello</div>)
+   */
+  render(component: any): RenderWrapper
+
+  /**
    * Unmounts the rendered React component and resets the document.body.
    *
    * @example
