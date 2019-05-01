@@ -1,4 +1,3 @@
-import warning from 'warning'
 import { pretty } from './utils/pretty.utils'
 import { getDocumentHTML } from './utils/render.utils'
 
@@ -10,13 +9,12 @@ const debug = (selector: string, options) => {
     root.innerHTML = html
     const scoped = root.querySelector(selector)
 
-    warning(
-      scoped,
-      `.debug() couldn't find ${selector}. Logging complete HTML instead.`,
-    )
-
     if (scoped) {
       html = scoped.outerHTML
+    } else {
+      console.warn(
+        `.debug() couldn't find ${selector}. Logging complete HTML instead.`,
+      )
     }
   }
   console.log(pretty(html, options))
