@@ -259,11 +259,12 @@ export interface Cyan extends CyanEvents {
    * Logs the outerHTML of main DOM element.
    *
    * @param {string} selector A DOM selector to query and debug.
+   * @param {Object} options Options for printing (js-beautify).
    *
    * @example
    * cy.get('section').debug()
    */
-  debug(selector?: string): void
+  debug(selector?: string, options?: any): void
 
   /**
    * Get the outerHTML of main DOM element.
