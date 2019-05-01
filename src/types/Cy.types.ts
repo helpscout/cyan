@@ -54,10 +54,12 @@ export type Cy = {
   /**
    * Logs the html of document.body.
    *
+   * @param {string} selector A DOM selector to query and debug.
+   *
    * @example
    * cy.debug()
    */
-  debug(): void
+  debug(selector?: string): void
 
   /**
    * Runs all immediates, ticks, and timers.
