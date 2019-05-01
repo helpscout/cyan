@@ -1,8 +1,25 @@
+import warning from 'warning'
 import { pretty } from './utils/pretty.utils'
 import { getDocumentHTML } from './utils/render.utils'
 
-const debug = (...args) => {
-  console.log(pretty(getDocumentHTML()), ...args)
+const debug = (selector: string, options) => {
+  let html = getDocumentHTML()
+
+  if (selector) {
+    const root = document.createElement('div')
+    root.innerHTML = html
+    const scoped = root.querySelector(selector)
+
+    warning(
+      scoped,
+      `.debug() couldn't find ${selector}. Logging complete HTML instead.`,
+    )
+
+    if (scoped) {
+      html = scoped.outerHTML
+    }
+  }
+  console.log(pretty(html, options))
 }
 
 export default debug
