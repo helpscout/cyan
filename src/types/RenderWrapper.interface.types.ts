@@ -1,4 +1,6 @@
-export interface RenderWrapper {
+import CyanInterface from './Cyan.interface.types'
+
+export interface RenderWrapperInterface extends CyanInterface {
   /**
    * Sets props for the Component and re-renders it into the DOM.
    *
@@ -95,4 +97,4 @@ export interface RenderWrapper {
   html(): string
 }
 
-export default RenderWrapper
+export default RenderWrapperInterface

@@ -19,12 +19,18 @@ class RenderWrapper extends Cyan {
     this.setComponent(Component)
     this.mount(Component)
 
-    if (this.root) {
-      // @ts-ignore
-      this.get(this.root.children[0])
-    }
+    // .get() method comes from Cyan
+    // @ts-ignore
+    this.get(this.root.children[0])
 
     return this
+  }
+
+  setRootNode() {
+    this.cleanUp()
+    // Create the root node for ReactDOM to mount to
+    this.root = createRootNode()
+    document.body.appendChild(this.root)
   }
 
   setComponent(Component) {
@@ -33,11 +39,8 @@ class RenderWrapper extends Cyan {
   }
 
   mount(Component = this.Component) {
-    this.cleanUp()
     this.setComponent(Component)
-    // Create the root node for ReactDOM to mount to
-    this.root = createRootNode()
-    document.body.appendChild(this.root)
+    this.setRootNode()
 
     // Render the WrappedComponent into the root node
     this.WrappedComponent = wrapWithProvider(this.Component)

@@ -1,4 +1,5 @@
 import CyanInterface, { Selector, CySelector } from './Cyan.interface.types'
+import RenderWrapperInterface from './RenderWrapper.interface.types'
 
 export type Cy = {
   /**
@@ -46,12 +47,12 @@ export type Cy = {
    * Renders the Component into the DOM.
    *
    * @param {any} Component The Component to render.
-   * @returns {RenderWrapper} The RenderWrapper instance.
+   * @returns {CyanInterface} The Cyan instance.
    *
    * @example
    * cy.render(<div>Hello</div>)
    */
-  render(component: any): CyanInterface
+  render(component: any): RenderWrapperInterface
 
   /**
    * Unmounts the rendered React component and resets the document.body.
