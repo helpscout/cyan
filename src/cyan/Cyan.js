@@ -5,7 +5,9 @@ import { addCommands } from '../utils/command.utils'
 
 export class Cyan {
   constructor(el) {
-    this.get(el)
+    if (el) {
+      this.get(el)
+    }
   }
 
   // QuerySelectors

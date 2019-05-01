@@ -13,6 +13,17 @@ export type Cy = {
   get(selector: Selector): Cyan
 
   /**
+   * Use cy.get() instead!
+   * Get the DOM elements with a selector.
+   *
+   * @returns {Cyan} The Cyan instance.
+   *
+   * @example
+   * cy.find('ul')
+   */
+  find(selector: Selector): Cyan
+
+  /**
    * Get the DOM elements with a [data-cy] selector.
    *
    * @returns {Cyan} The Cyan instance.
@@ -41,7 +52,7 @@ export type Cy = {
    * @example
    * cy.render(<div>Hello</div>)
    */
-  render(component: any): RenderWrapper
+  render(component: any): any
 
   /**
    * Unmounts the rendered React component and resets the document.body.

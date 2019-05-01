@@ -1,4 +1,4 @@
-export const addCommands = (baseClass, commandList) => {
+export const addCommands = (baseClass, commandList): void => {
   const commands = Object.keys(commandList)
   commands.forEach(key => {
     baseClass.prototype[key] = commandList[key]

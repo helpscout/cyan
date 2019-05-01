@@ -1,22 +1,28 @@
 import * as React from 'react'
 import ReactDOM from 'react-dom'
+import Cyan from '../cyan'
 import cleanUp from '../cleanUp'
 import domCleanUp from '../domCleanUp'
-import debug from '../debug'
 import { runAllTimers } from '../timers'
 import wrapWithProvider from './wrapWithProvider'
-import { createRootNode, getDocumentHTML } from '../utils/render.utils'
+import { createRootNode } from '../utils/render.utils'
 import { isDefined } from '../utils/is.utils'
 
-class RenderWrapper {
+class RenderWrapper extends Cyan {
   Component: any
   WrappedComponent: any
   initialProps: any
   root: HTMLElement
 
   constructor(Component: any) {
+    super()
     this.setComponent(Component)
     this.mount(Component)
+
+    if (this.root) {
+      // @ts-ignore
+      this.get(this.root.children[0])
+    }
 
     return this
   }
@@ -54,15 +60,6 @@ class RenderWrapper {
 
     this.setProps({ [prop]: value })
     return this
-  }
-
-  debug() {
-    debug()
-    return this
-  }
-
-  html() {
-    return getDocumentHTML()
   }
 
   cleanUp() {
