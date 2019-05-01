@@ -1,5 +1,5 @@
 import invariant from 'invariant'
-import commands from '../commands/index'
+import commands from '../commands'
 import { get, getByText } from '../utils/selector.utils'
 import { withCommands } from '../utils/command.utils'
 
