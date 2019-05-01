@@ -9,7 +9,7 @@ export interface RenderWrapper {
    * const wrapper = cy.render(<div />)
    * wrapper.setProps({ title: 'Hello' })
    */
-  setProps(props: Object): RenderWrapper
+  setProps(props: Object): this
 
   /**
    * Sets a prop for the Component and re-renders it into the DOM.
@@ -22,7 +22,7 @@ export interface RenderWrapper {
    * const wrapper = cy.render(<div />)
    * wrapper.setProp('title', 'Hello')
    */
-  setProp(prop: string, value: any): RenderWrapper
+  setProp(prop: string, value: any): this
 
   /**
    * Unmounts the Component from the DOM.
@@ -33,7 +33,7 @@ export interface RenderWrapper {
    * const wrapper = cy.render(<div />)
    * wrapper.cleanUp()
    */
-  cleanUp(): RenderWrapper
+  cleanUp(): this
 
   /**
    * Unmounts the Component from the DOM.
@@ -44,7 +44,7 @@ export interface RenderWrapper {
    * const wrapper = cy.render(<div />)
    * wrapper.unmount()
    */
-  unmount(): RenderWrapper
+  unmount(): this
 
   /**
    * Renders and mounts a Component into the DOM.
@@ -57,7 +57,7 @@ export interface RenderWrapper {
    * wrapper.unmount()
    * wrapper.mount(<span />)
    */
-  mount(component: any): RenderWrapper
+  mount(component: any): this
 
   /**
    * Renders and mounts the Component into the DOM.
@@ -70,7 +70,7 @@ export interface RenderWrapper {
    * wrapper.unmount()
    * wrapper.render({ title: 'Hello' })
    */
-  render(props: any): RenderWrapper
+  render(props: any): this
 
   /**
    * Logs the outerHTML of main DOM element.
@@ -81,7 +81,7 @@ export interface RenderWrapper {
    * const wrapper = cy.render(<div />)
    * wrapper.debug()
    */
-  debug(): RenderWrapper
+  debug(): this
 
   /**
    * Get the outerHTML of main DOM element.

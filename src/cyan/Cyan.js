@@ -1,9 +1,12 @@
 import invariant from 'invariant'
-import commands from '../commands'
+import commands from '../commands/index'
 import { get, getByText } from '../utils/selector.utils'
-import { addCommands } from '../utils/command.utils'
+import { withCommands } from '../utils/command.utils'
 
 export class Cyan {
+  el = []
+  length = 0
+
   constructor(el) {
     if (el) {
       this.get(el)
@@ -51,6 +54,6 @@ export class Cyan {
   }
 }
 
-addCommands(Cyan, commands)
+withCommands(commands)(Cyan)
 
 export default Cyan

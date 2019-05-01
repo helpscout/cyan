@@ -1,5 +1,4 @@
-import Cyan, { Selector, CySelector } from './Cyan.types'
-import RenderWrapper from './RenderWrapper.types'
+import CyanInterface, { Selector, CySelector } from './Cyan.interface.types'
 
 export type Cy = {
   /**
@@ -10,7 +9,7 @@ export type Cy = {
    * @example
    * cy.get('ul')
    */
-  get(selector: Selector): Cyan
+  get(selector: Selector): CyanInterface
 
   /**
    * Use cy.get() instead!
@@ -21,7 +20,7 @@ export type Cy = {
    * @example
    * cy.find('ul')
    */
-  find(selector: Selector): Cyan
+  find(selector: Selector): CyanInterface
 
   /**
    * Get the DOM elements with a [data-cy] selector.
@@ -31,7 +30,7 @@ export type Cy = {
    * @example
    * cy.getByCy('ul')
    */
-  getByCy(selector: CySelector): Cyan
+  getByCy(selector: CySelector): CyanInterface
 
   /**
    * Get the DOM elements with a text match.
@@ -41,7 +40,7 @@ export type Cy = {
    * @example
    * cy.getByText('Hello')
    */
-  getByText(text: string): Cyan
+  getByText(text: string): CyanInterface
 
   /**
    * Renders the Component into the DOM.
@@ -52,7 +51,7 @@ export type Cy = {
    * @example
    * cy.render(<div>Hello</div>)
    */
-  render(component: any): any
+  render(component: any): CyanInterface
 
   /**
    * Unmounts the rendered React component and resets the document.body.
