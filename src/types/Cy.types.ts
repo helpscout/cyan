@@ -55,12 +55,20 @@ export type Cy = {
   render(component: any): RenderWrapperInterface
 
   /**
-   * Unmounts the rendered React component and resets the document.body.
+   * Unmounts the rendered React component.
    *
    * @example
    * cy.cleanUp()
    */
   cleanUp(): void
+
+  /**
+   * Resets the document.body.
+   *
+   * @example
+   * cy.domCleanUp()
+   */
+  domCleanUp(): void
 
   /**
    * Logs the html of document.body.

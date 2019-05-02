@@ -77,13 +77,11 @@ export interface RenderWrapperInterface extends CyanInterface {
   /**
    * Logs the outerHTML of main DOM element.
    *
-   * @returns {RenderWrapper} The RenderWrapper instance.
-   *
    * @example
    * const wrapper = cy.render(<div />)
    * wrapper.debug()
    */
-  debug(): this
+  debug(selector?: string, options?: any): void
 
   /**
    * Get the outerHTML of main DOM element.
