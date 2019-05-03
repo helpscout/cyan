@@ -1,4 +1,13 @@
 /* global jasmine */
+import React from 'react'
+import Page from '@helpscout/hsds-react/components/Page'
+import Input from '@helpscout/hsds-react/components/Input'
+import { cy } from '../index'
+import { getDocumentHTML } from '../utils/render.utils'
+import { getDocumentCSS } from '../utils/css.utils'
+
+const fs = require('fs')
+const path = require('path')
 const { spawn } = require('child_process')
 const EventEmitter = require('events')
 
@@ -25,12 +34,11 @@ let interval
  * a "next" or "done event.
  */
 const inspector = async () => {
-  // spawn('open', ['https://www.google.ca'], { stdio: 'inherit' })
   let count = 0
   return new Promise(resolve => {
     sharedSingletonEmitter.on('tick', () => {
       count++
-      if (count === 5) {
+      if (count === 2) {
         resolve()
       }
     })
@@ -58,25 +66,51 @@ afterEach(() => {
   clearInterval(interval)
 })
 
+const generateHTML = () => {
+  const css = getDocumentCSS()
+  const html = getDocumentHTML()
+  const template = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>Inspector</title>
+        <style>${css}</style>
+      </head>
+      <body>
+        ${html}
+        <pre>
+        <textarea>
+        ${html}
+        </textarea>
+        </pre>
+      </body>
+    </html>
+  `
+  const filepath = path.join(__dirname, 'index.html')
+  fs.writeFileSync(filepath, template)
+}
+
 /**
  * The magical method that forces the super long Jasmine
  * timer, and fires up the inspector().
  */
 const inspect = async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000000
+  generateHTML()
+  const filepath = path.join(__dirname, 'index.html')
+  spawn('open', [filepath], { stdio: 'inherit' })
   return await inspector()
 }
 
-const cy = {
-  inspect,
-}
-
 test('Debugger', async () => {
+  const wrapper = cy.render(<Input label="Hello" />)
+
+  wrapper.setProps({ value: 'Nickolas and Q' })
   /**
    * In order to block Jest from running subsequent code,
    * we need to use async/await. I wish we didn't have to,
    * but I couldn't figure out another way.
    */
-  await cy.inspect()
+  await inspect()
   expect(true).toBeTruthy()
 })

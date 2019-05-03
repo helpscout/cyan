@@ -1,5 +1,7 @@
 export const getCSSTextFromRule = rule => {
   const { style, selectorText } = rule
+  if (!style) return ''
+
   const { _importants } = style
   const styleKeys = Object.keys(style).filter(prop => !isNaN(Number(prop)))
   const ruleKeys = styleKeys.map(key => style[key])
@@ -21,7 +23,7 @@ export const getCSSRulesFromStyleSheet = styleSheet => {
   }, '')
 }
 
-export const getCSSFromDocument = () => {
+export const getDocumentCSS = () => {
   const styleSheets = Object.values(document.styleSheets)
   const css = styleSheets.reduce((styles, styleSheet) => {
     return `${styles} ${getCSSRulesFromStyleSheet(styleSheet)}`
