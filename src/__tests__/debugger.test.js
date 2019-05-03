@@ -91,3 +91,17 @@ test('Debugger', () => {
 
   expect(true).toBeTruthy()
 })
+
+test('Debugger 2', () => {
+  cy.render(
+    <FormGroup>
+      <Input label="First Name!!!!!!!!!!!!!!!!!!!!!" />
+    </FormGroup>,
+  )
+
+  inspect()
+
+  expect(true).toBeTruthy()
+
+  inspect()
+})
