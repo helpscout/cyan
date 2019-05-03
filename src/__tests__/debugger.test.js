@@ -8,7 +8,7 @@ import { getDocumentCSS } from '../utils/css.utils'
 
 const fs = require('fs')
 const path = require('path')
-const { spawn } = require('child_process')
+const { fork, spawn } = require('child_process')
 const EventEmitter = require('events')
 
 /**
@@ -33,15 +33,9 @@ let interval
  * The inspector should resolve once the browser triggers
  * a "next" or "done event.
  */
-const inspector = async () => {
-  let count = 0
+const inspector = async process => {
   return new Promise(resolve => {
-    sharedSingletonEmitter.on('tick', () => {
-      count++
-      if (count === 2) {
-        resolve()
-      }
-    })
+    process.on('exit', resolve)
   })
 }
 
@@ -98,8 +92,12 @@ const inspect = async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000000
   generateHTML()
   const filepath = path.join(__dirname, 'index.html')
-  spawn('open', [filepath], { stdio: 'inherit' })
-  return await inspector()
+  const scriptpath = path.join(__dirname, '/../../brain')
+  const brainProcess = fork(scriptpath)
+  spawn('open', [`http://localhost:3000?file=${filepath}`], {
+    stdio: 'inherit',
+  })
+  return await inspector(brainProcess)
 }
 
 test('Debugger', async () => {
