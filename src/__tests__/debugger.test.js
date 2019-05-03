@@ -69,7 +69,7 @@ test('Debugger', async () => {
       <Modal.Body>
         <div style={{ width: 400, height: 400 }}>
           <FormGroup>
-            <Input label="First Name!!!!!!!!!!!!!!!!!!!!!" />
+            <Input label="First Name!" />
           </FormGroup>
           <FormGroup>
             <Input label="Last Name" />
