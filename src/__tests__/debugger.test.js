@@ -1,17 +1,20 @@
 import React from 'react'
-import Button from '@helpscout/hsds-react/components/Button'
+import Page from '@helpscout/hsds-react/components/Page'
+import Heading from '@helpscout/hsds-react/components/Heading'
 import { cy } from '../index'
 
 jest.useFakeTimers()
 
 test('Modal Demo Test', async () => {
   cy.render(
-    <Button version={2} kind="primary" size="lg">
-      Hello
-    </Button>,
+    <Page isResponsive>
+      <Page.Card>
+        <Heading>Hello</Heading>
+      </Page.Card>
+    </Page>,
   )
 
-  cy.inspect()
+  await cy.inspect()
 
   expect(true).toBeTruthy()
 })

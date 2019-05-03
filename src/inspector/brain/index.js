@@ -7,5 +7,16 @@ const addRoutes = require('./utils/addRoutes')
 const routes = require('./routes')
 
 addRoutes(app, routes)
-io.on('connection', socket => socket.on('disconnect', () => process.exit(0)))
+
+io.on('connection', socket =>
+  socket.on('disconnect', () => {
+    http.close()
+  }),
+)
+
 http.listen(port)
+
+process.on('SIGINT', () => {
+  http.close()
+  process.exit(0)
+})

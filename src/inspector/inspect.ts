@@ -44,10 +44,16 @@ const inspector = async process => {
   })
 }
 
+export const openBrowser = () => {
+  spawn('open', ['http://localhost:3000'], {
+    stdio: 'inherit',
+  })
+}
+
 export const inspect = async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000000
 
-  if (cachedProcess) {
+  if (cachedProcess && cachedProcess.exit) {
     cachedProcess.exit(0)
     cachedProcess = null
   }
@@ -59,9 +65,7 @@ export const inspect = async () => {
 
   cachedProcess = brainProcess
 
-  spawn('open', ['http://localhost:3000'], {
-    stdio: 'inherit',
-  })
+  openBrowser()
 
   return await inspector(brainProcess)
 }

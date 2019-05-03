@@ -20,7 +20,7 @@ jasmine.getEnv().addReporter({
 })
 
 const getFilePath = (filename = 'index') => {
-  const base = path.join(process.cwd(), '/.cyan/')
+  const base = path.join(process.cwd(), '/node_modules/.cyan/')
   if (!fs.existsSync(base)) {
     fs.mkdirSync(base)
   }
@@ -66,7 +66,7 @@ const generateHTML = (filename, lineNumber) => {
   fs.writeFileSync(getFilePath(filename), template)
 }
 
-export const gadget = filename => {
+export const gadget = (filename?) => {
   // @ts-ignore
   const lineNumber = new Error().stack.match(/\(.*\)/g)[2]
 
