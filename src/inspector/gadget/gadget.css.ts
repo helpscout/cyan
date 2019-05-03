@@ -15,6 +15,11 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   margin: 0;
 }
+#close {
+  position: absolute;
+  right: 10px;
+  top: 6px;
+}
 #bar {
   align-items: center;
   background: var(--backgroundColor);

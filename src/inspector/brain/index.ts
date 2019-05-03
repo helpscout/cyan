@@ -8,4 +8,4 @@ const routes = require('./routes')
 
 addRoutes(app, routes)
 io.on('connection', socket => socket.on('disconnect', () => process.exit(0)))
-http.listen(port, () => console.log(`> Running on localhost:${port}`))
+http.listen(port)

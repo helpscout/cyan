@@ -3,14 +3,15 @@
 import fs from 'fs'
 import path from 'path'
 
-import { getDocumentHTML } from '../utils/render.utils'
-import { getDocumentCSS } from '../utils/css.utils'
-import pretty from '../utils/pretty.utils'
-import inspectorCSS from './inspector.css'
-import editorTheme from './editor.theme.ayu'
+import { getDocumentHTML } from '../../utils/render.utils'
+import { getDocumentCSS } from '../../utils/css.utils'
+import pretty from '../../utils/pretty.utils'
+import inspectorCSS from './gadget.css'
+import editorTheme from './gadget.editor.theme.ayu'
 
 let currentTest
 
+// @ts-ignore
 jasmine.getEnv().addReporter({
   specStarted: function(result) {
     currentTest = result
@@ -39,13 +40,24 @@ const generateHTML = lineNumber => {
         <style>${inspectorCSS}</style>
       </head>
       <body>
-        <div id="bar"><div>${fullName} ${lineNumber}</div></div>
+        <div id="bar">
+          <div>
+            ${fullName} ${lineNumber}
+            <button id="close">Close</button>
+          </div>
+        </div>
         <iframe id="iframe"></iframe>
         <div id="editor"></div>
         <script>window.markup = \`${html}\`</script>
         <script>window.css = \`${css}\`</script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.4/ace.js"></script>
         ${editorTheme}
+        <script>
+          const close = document.querySelector('#close')
+          close.addEventListener('click', () => {
+            window.open('','_self').close();
+          })
+        </script>
         <script>
           const iframe = document.querySelector('#iframe')
           const head = iframe.contentWindow.document.getElementsByTagName('head')[0]
@@ -86,9 +98,12 @@ const generateHTML = lineNumber => {
   fs.writeFileSync(getFilePath(), template)
 }
 
-export const goGadgetGo = () => {
+export const gadget = () => {
+  // @ts-ignore
   const lineNumber = new Error().stack.match(/\(.*\)/g)[2]
 
   jest.runAllTimers()
   generateHTML(lineNumber)
 }
+
+export default gadget
