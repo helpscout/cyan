@@ -1,3 +1,4 @@
+/* global jasmine */
 const { spawn } = require('child_process')
 const EventEmitter = require('events')
 
@@ -24,7 +25,7 @@ let interval
  * a "next" or "done event.
  */
 const inspector = async () => {
-  spawn('open', ['https://www.google.ca'], { stdio: 'inherit' })
+  // spawn('open', ['https://www.google.ca'], { stdio: 'inherit' })
   let count = 0
   return new Promise(resolve => {
     sharedSingletonEmitter.on('tick', () => {
