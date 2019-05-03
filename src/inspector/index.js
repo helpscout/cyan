@@ -2,7 +2,6 @@
 
 import fs from 'fs'
 import path from 'path'
-import { spawn } from 'child_process'
 
 import { getDocumentHTML } from '../utils/render.utils'
 import { getDocumentCSS } from '../utils/css.utils'
@@ -16,9 +15,13 @@ jasmine.getEnv().addReporter({
   },
 })
 
-const openInspector = () => {
-  const filepath = path.join(__dirname, 'index.html')
-  spawn('open', [filepath], { stdio: 'inherit' })
+const getFilePath = () => {
+  const base = path.join(process.cwd(), '/.cyan/')
+  if (!fs.existsSync(base)) {
+    fs.mkdirSync(base)
+  }
+
+  return path.join(base, 'index.html')
 }
 
 const generateHTML = lineNumber => {
@@ -124,8 +127,7 @@ const generateHTML = lineNumber => {
       </body>
     </html>
   `
-  const filepath = path.join(__dirname, 'index.html')
-  fs.writeFileSync(filepath, template)
+  fs.writeFileSync(getFilePath(), template)
 }
 
 export const goGadgetGo = () => {
@@ -133,5 +135,4 @@ export const goGadgetGo = () => {
 
   jest.runAllTimers()
   generateHTML(lineNumber)
-  openInspector()
 }
