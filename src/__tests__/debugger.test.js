@@ -48,21 +48,13 @@ const inspector = async process => {
   })
 }
 
-let lol
-
 const inspect = async () => {
-  if (lol) {
-    lol.exit(0)
-  }
-
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000000
 
   goGadgetGo()
 
   const scriptpath = path.join(__dirname, '/../../brain')
   const brainProcess = fork(scriptpath)
-
-  lol = brainProcess
 
   spawn('open', ['http://localhost:3000'], {
     stdio: 'inherit',
@@ -71,7 +63,7 @@ const inspect = async () => {
   return await inspector(brainProcess)
 }
 
-test('Debugger', () => {
+test('Debugger', async () => {
   cy.render(
     <Modal isOpen>
       <Modal.Body>
@@ -87,21 +79,21 @@ test('Debugger', () => {
     </Modal>,
   )
 
-  inspect()
+  await inspect()
 
   expect(true).toBeTruthy()
 })
 
-test('Debugger 2', () => {
+test('Debugger 2', async () => {
   cy.render(
     <FormGroup>
       <Input label="First Name!!!!!!!!!!!!!!!!!!!!!" />
     </FormGroup>,
   )
 
-  inspect()
+  await inspect()
 
   expect(true).toBeTruthy()
 
-  inspect()
+  await inspect()
 })
