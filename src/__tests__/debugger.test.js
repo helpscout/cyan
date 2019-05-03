@@ -71,13 +71,13 @@ const inspect = async () => {
   return await inspector(brainProcess)
 }
 
-test('Debugger', () => {
+test('Debugger', async () => {
   cy.render(
     <Modal isOpen>
       <Modal.Body>
         <div style={{ width: 400, height: 400 }}>
           <FormGroup>
-            <Input label="First Name!!!!!!!!!!!!!!!!!!!!!" />
+            <Input label="First Name!" />
           </FormGroup>
           <FormGroup>
             <Input label="Last Name" />
@@ -87,21 +87,7 @@ test('Debugger', () => {
     </Modal>,
   )
 
-  inspect()
+  await inspect()
 
   expect(true).toBeTruthy()
-})
-
-test('Debugger 2', () => {
-  cy.render(
-    <FormGroup>
-      <Input label="First Name!!!!!!!!!!!!!!!!!!!!!" />
-    </FormGroup>,
-  )
-
-  inspect()
-
-  expect(true).toBeTruthy()
-
-  inspect()
 })
