@@ -1,6 +1,7 @@
 /* global jasmine */
 import React from 'react'
 import Modal from '@helpscout/hsds-react/components/Modal'
+import FormGroup from '@helpscout/hsds-react/components/FormGroup'
 import Input from '@helpscout/hsds-react/components/Input'
 import { cy } from '../index'
 import { goGadgetGo } from '../inspector'
@@ -47,13 +48,21 @@ const inspector = async process => {
   })
 }
 
+let lol
+
 const inspect = async () => {
+  if (lol) {
+    lol.exit(0)
+  }
+
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000000
 
   goGadgetGo()
 
   const scriptpath = path.join(__dirname, '/../../brain')
   const brainProcess = fork(scriptpath)
+
+  lol = brainProcess
 
   spawn('open', ['http://localhost:3000'], {
     stdio: 'inherit',
@@ -62,18 +71,23 @@ const inspect = async () => {
   return await inspector(brainProcess)
 }
 
-test('Debugger', async () => {
+test('Debugger', () => {
   cy.render(
     <Modal isOpen>
       <Modal.Body>
         <div style={{ width: 400, height: 400 }}>
-          <Input label="First Name" />
+          <FormGroup>
+            <Input label="First Name!!!!!!!!!!!!!!!!!!!!!" />
+          </FormGroup>
+          <FormGroup>
+            <Input label="Last Name" />
+          </FormGroup>
         </div>
       </Modal.Body>
     </Modal>,
   )
 
-  await inspect()
+  inspect()
 
   expect(true).toBeTruthy()
 })
