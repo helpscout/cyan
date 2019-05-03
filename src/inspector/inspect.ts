@@ -66,4 +66,8 @@ export const inspect = async () => {
   return await inspector(brainProcess)
 }
 
+process.on('SIGINT', () => {
+  cleanUp()
+})
+
 export default inspect

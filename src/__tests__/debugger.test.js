@@ -11,7 +11,7 @@ test('Modal Demo Test', async () => {
     </Button>,
   )
 
-  await cy.inspect()
+  cy.inspect()
 
   expect(true).toBeTruthy()
 })
