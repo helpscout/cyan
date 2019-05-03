@@ -1,116 +1,23 @@
 /* global jasmine */
 import React from 'react'
-import Page from '@helpscout/hsds-react/components/Page'
+import Modal from '@helpscout/hsds-react/components/Modal'
 import Input from '@helpscout/hsds-react/components/Input'
 import { cy } from '../index'
-import { getDocumentHTML } from '../utils/render.utils'
-import { getDocumentCSS } from '../utils/css.utils'
+import { goGadgetGo } from '../inspector'
 
-const fs = require('fs')
-const path = require('path')
-const { spawn } = require('child_process')
-const EventEmitter = require('events')
+jest.useFakeTimers()
 
-/**
- * Create an instance (singleton) of EventEmitter, which is
- * shared between the Browser/inspector process and the
- * cy.inspect() method.
- */
-const sharedSingletonEmitter = new EventEmitter()
+test('Debugger', () => {
+  cy.render(
+    <Modal isOpen>
+      <Modal.Body>
+        <div style={{ width: 400, height: 400 }}>
+          <Input label="First Name" />
+        </div>
+      </Modal.Body>
+    </Modal>,
+  )
+  goGadgetGo()
 
-/**
- * Caching the existing Jasmine timeout to be modified
- * and restored before/after every inspect call
- */
-let _defaultTimeoutInterval = jasmine.DEFAULT_TIMEOUT_INTERVAL
-let interval
-
-/**
- * Spawns a browser that is connected to the inspector.
- * This, in theory, opens a channel between the browser
- * inspector and the inspector() call.
- *
- * The inspector should resolve once the browser triggers
- * a "next" or "done event.
- */
-const inspector = async () => {
-  let count = 0
-  return new Promise(resolve => {
-    sharedSingletonEmitter.on('tick', () => {
-      count++
-      if (count === 2) {
-        resolve()
-      }
-    })
-  })
-}
-
-/**
- * Setting up our inspector.
- *
- * The Jasmine timers have to be cached and reset here.
- * The inspector forces the timer to be super long, in order
- * to accomodate the debugging/inspect experience.
- *
- * We need to restore the timer to the original state to
- * ensure subsequent tests run as expected.
- */
-beforeEach(() => {
-  _defaultTimeoutInterval = jasmine.DEFAULT_TIMEOUT_INTERVAL
-  interval = setInterval(() => {
-    sharedSingletonEmitter.emit('tick')
-  }, 1000)
-})
-afterEach(() => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = _defaultTimeoutInterval
-  clearInterval(interval)
-})
-
-const generateHTML = () => {
-  const css = getDocumentCSS()
-  const html = getDocumentHTML()
-  const template = `
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <title>Inspector</title>
-        <style>${css}</style>
-      </head>
-      <body>
-        ${html}
-        <pre>
-        <textarea>
-        ${html}
-        </textarea>
-        </pre>
-      </body>
-    </html>
-  `
-  const filepath = path.join(__dirname, 'index.html')
-  fs.writeFileSync(filepath, template)
-}
-
-/**
- * The magical method that forces the super long Jasmine
- * timer, and fires up the inspector().
- */
-const inspect = async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000000
-  generateHTML()
-  const filepath = path.join(__dirname, 'index.html')
-  spawn('open', [filepath], { stdio: 'inherit' })
-  return await inspector()
-}
-
-test('Debugger', async () => {
-  const wrapper = cy.render(<Input label="Hello" />)
-
-  wrapper.setProps({ value: 'Nickolas and Q' })
-  /**
-   * In order to block Jest from running subsequent code,
-   * we need to use async/await. I wish we didn't have to,
-   * but I couldn't figure out another way.
-   */
-  await inspect()
   expect(true).toBeTruthy()
 })
