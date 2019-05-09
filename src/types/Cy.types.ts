@@ -192,10 +192,13 @@ export type Cy = {
   forceAllPromisesToReject(callback?: (reason: any) => any): void
 
   /**
-   * Launches the Cyan Inspector in your default browser.
+   * EXPERIMENTAL FEATURE
+   * Launches the Cyan Inspector in your default browser, with a snapshot of
+   * the rendered HTML (and CSS). It is recommended that it is used with
+   * async/await.
    *
    * @example
-   * cy.inspect()
+   * await cy.inspect()
    */
   inspect(): void
 }
