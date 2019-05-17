@@ -83,4 +83,11 @@ describe('debugByCy', () => {
 
     expect(spy).toHaveBeenCalledWith('<span data-cy="Hello">Hi</span>')
   })
+
+  test('Logs document.body if no selector', () => {
+    cy.render(<span data-cy="Hello">Hi</span>)
+    debugByCy()
+
+    expect(spy).toHaveBeenCalledWith('<span data-cy="Hello">Hi</span>')
+  })
 })
