@@ -2,6 +2,17 @@ import CyanInterface from './Cyan.interface.types'
 
 export interface RenderWrapperInterface extends CyanInterface {
   /**
+   * Gets the React rendered component instance.
+   *
+   * @returns {React.Component} The rendered Component instance.
+   *
+   * @example
+   * const wrapper = cy.render(<div />)
+   * wrapper.getInstance()
+   */
+  getInstance(): any
+
+  /**
    * Sets props for the Component and re-renders it into the DOM.
    *
    * @param {Object} props The props to set.

@@ -12,6 +12,7 @@ class RenderWrapper extends Cyan {
   Component: any
   WrappedComponent: any
   initialProps: any
+  __instance: any
   root: HTMLElement
 
   constructor(Component: any) {
@@ -51,6 +52,10 @@ class RenderWrapper extends Cyan {
     return this
   }
 
+  getInstance() {
+    return this.__instance
+  }
+
   setProps(props = this.initialProps) {
     this.render(props)
     return this
@@ -78,7 +83,8 @@ class RenderWrapper extends Cyan {
 
   render(props) {
     const Component = this.WrappedComponent
-    ReactDOM.render(<Component {...props} />, this.root)
+    this.__instance = <Component {...props} />
+    ReactDOM.render(this.__instance, this.root)
     return this
   }
 }

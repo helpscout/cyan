@@ -139,4 +139,13 @@ describe('render', () => {
     expect(cy.get('div').exists()).not.toBeTruthy()
     expect(cy.get('span').exists()).toBeTruthy()
   })
+
+  test('Can retrieve the component instance', () => {
+    const wrapper = cy.render(<div>Hello</div>)
+    const instance = wrapper.getInstance()
+
+    expect(instance.$$typeof).toBeTruthy()
+    expect(instance.type).toBeTruthy()
+    expect(instance.props.children).toBe('Hello')
+  })
 })
